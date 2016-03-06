@@ -33,11 +33,18 @@ df = pd.read_csv(csv_file, index_col = 'Time',
 #find all the resets that occured
 df_restarts = df.loc[df['Status ()']>0].index    
 #take all from start to one before reset
-df_am_slice = df.loc[:df_restarts[-1]].iloc[:-1]
+df_am_all_sensors = df.loc[:df_restarts[-1],['Analog 3 (mV)','Solar Radiation (W/m²)']].iloc[:-1]
 #take all from last reset to end
 df_pm_all_sensors = df.loc[df_restarts[-1]:,['Analog 3 (mV)','Solar Radiation (W/m²)']]
 
-df_pm_all_sensors = df_pm_all_sensors.rename(columns={'Solar Radiation (W/m²)':csv_file})
+
+#df_pm_all_sensors.loc[:,'Solar Radiation (W/m²)'].plot()
+
+#rename columns
+df_am_all_sensors = df_am_all_sensors.rename(columns={'Analog 3 (mV)':'Cap 1 Apogee (mV)',
+'Solar Radiation (W/m²)':csv_file[4:-4]+' pyranometer (mV)'})
+df_pm_all_sensors = df_pm_all_sensors.rename(columns={'Analog 3 (mV)':'Cap 1 Apogee (mV)',
+'Solar Radiation (W/m²)':csv_file[4:-4]+' pyranometer (mV)'})
 
 
 for csv_file in csv_files[1:]:
@@ -49,23 +56,31 @@ for csv_file in csv_files[1:]:
     #find all the resets that occured
     df_restarts = df.loc[df['Status ()']>0].index    
     #take all from start to one before the last reset (when we moved all the units)
-    df_am_slice = df.loc[:df_restarts[-1]].iloc[:-1]
+    df_am_slice = df.loc[:df_restarts[-1],['Solar Radiation (W/m²)']].iloc[:-1]
     #take all from last reset to end
     df_pm_slice = df.loc[df_restarts[-1]:,['Solar Radiation (W/m²)']]
     
     
+    #df_pm_slice.loc[:,'Solar Radiation (W/m²)'].plot()
+    #df_am_slice.loc[:,'Solar Radiation (W/m²)'].plot()
+    
+    #add data slices to all_sensors dataframe
+    df_pm_all_sensors = pd.concat([df_pm_all_sensors, df_pm_slice], axis=1) 
+    df_pm_all_sensors = df_pm_all_sensors.rename(columns={'Solar Radiation (W/m²)':csv_file[4:-4]+' pyranometer (mV)'})    
+    
+    df_am_all_sensors = pd.concat([df_am_all_sensors, df_am_slice], axis=1) 
+    df_am_all_sensors = df_am_all_sensors.rename(columns={'Solar Radiation (W/m²)':csv_file[4:-4]+' pyranometer (mV)'})    
      
-    df_pm_all_sensors = pd.concat([df_pm_all_sensors, df_pm_slice], axis=1)
-    
-    df_pm_all_sensors = df_pm_all_sensors.rename(columns={'Solar Radiation (W/m²)':csv_file})    
-    
-    #df_am_slice['Solar Radiation (W/m²)'].plot()
-    #df_pm_slice['Solar Radiation (W/m²)'].plot()
 
-df_pm_all_sensors = df_pm_all_sensors.fillna(method='pad')
+df_am_all_sensors = df_am_all_sensors.interpolate(method='time')
+df_pm_all_sensors = df_pm_all_sensors.interpolate(method='time')
+
+df_am_all_sensors.plot()
 
 df_pm_all_sensors.plot()
 plt.xlabel('Time')
 plt.ylabel('Raw Solar Radiation (mV)')
 
+
+df_am_all_sensors.to_csv('df_am_all_sensors.csv')
 df_pm_all_sensors.to_csv('df_pm_all_sensors.csv')
