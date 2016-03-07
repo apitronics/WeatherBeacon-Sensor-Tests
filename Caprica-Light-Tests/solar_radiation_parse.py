@@ -28,7 +28,7 @@ df = pd.read_csv(csv_file, index_col = 'Time',
                  parse_dates = 'Time', date_parser=parser).loc[
                  '2016-03-01 08:00:00':]
                  
-
+#df = pd.DataFrame('Solar Radiation (W/m²)', dtype='int64')
                 
 #find all the resets that occured
 df_restarts = df.loc[df['Status ()']>0].index    
@@ -52,6 +52,7 @@ for csv_file in csv_files[1:]:
     df = pd.read_csv(csv_file, index_col = 'Time', 
                      parse_dates = 'Time', date_parser=parser).loc[
                      '2016-03-01 08:00:00':]
+    
                     
     #find all the resets that occured
     df_restarts = df.loc[df['Status ()']>0].index    
