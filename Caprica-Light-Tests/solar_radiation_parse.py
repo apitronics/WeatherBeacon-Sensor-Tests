@@ -41,9 +41,9 @@ df_pm_all_sensors = df.loc[df_restarts[-1]:,['Analog 3 (mV)','Solar Radiation (W
 #df_pm_all_sensors.loc[:,'Solar Radiation (W/m²)'].plot()
 
 #rename columns
-df_am_all_sensors = df_am_all_sensors.rename(columns={'Analog 3 (mV)':'Cap 1 Apogee (mV)',
+df_am_all_sensors = df_am_all_sensors.rename(columns={'Analog 3 (mV)':'Apogee pyranometer (mV)',
 'Solar Radiation (W/m²)':csv_file[4:-4]+' pyranometer (mV)'})
-df_pm_all_sensors = df_pm_all_sensors.rename(columns={'Analog 3 (mV)':'Cap 1 Apogee (mV)',
+df_pm_all_sensors = df_pm_all_sensors.rename(columns={'Analog 3 (mV)':'Apogee pyranometer (mV)',
 'Solar Radiation (W/m²)':csv_file[4:-4]+' pyranometer (mV)'})
 
 

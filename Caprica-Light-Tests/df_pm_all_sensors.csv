@@ -1,4 +1,4 @@
-Time,Cap 1 Apogee (mV),Cap 1 pyranometer (mV),Cap 2 pyranometer (mV),Cap 3 pyranometer (mV),Cap 4 pyranometer (mV),Cap 5 pyranometer (mV),Cap 6 pyranometer (mV),Cap 7 pyranometer (mV),Cap 8 pyranometer (mV)
+Time,Apogee pyranometer (mV),Cap 1 pyranometer (mV),Cap 2 pyranometer (mV),Cap 3 pyranometer (mV),Cap 4 pyranometer (mV),Cap 5 pyranometer (mV),Cap 6 pyranometer (mV),Cap 7 pyranometer (mV),Cap 8 pyranometer (mV)
 2016-03-01 13:11:41,1455.0,1440.0,,,,,,,
 2016-03-01 13:11:48,1454.7437070938215,1439.7757437070939,,,,,,,1384.0
 2016-03-01 13:12:02,1454.2311212814645,1439.3272311212816,,,,,,1516.0,1383.5121951219512
