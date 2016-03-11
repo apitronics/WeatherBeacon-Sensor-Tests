@@ -7,13 +7,12 @@ Created on Thu Mar  3 11:03:48 2016
 
 
 import pandas as pd
-
 import datetime
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-#matplotlib.style.use('ggplot')
+matplotlib.style.use('ggplot')
+plt.close("all")
 
 #The timezone and UTC offset break our timedate, so just ignore them
 parser = lambda date: pd.datetime.strptime(date[:-9], '%Y-%m-%d %H:%M:%S')  #2016-02-25 16:42:28 PST-0800
@@ -28,7 +27,8 @@ df = pd.read_csv(csv_file, index_col = 'Time',
                  parse_dates = 'Time', date_parser=parser).loc[
                  '2016-03-01 08:00:00':]
                  
-#df = pd.DataFrame('Solar Radiation (W/m²)', dtype='int64')
+
+
                 
 #find all the resets that occured
 df_restarts = df.loc[df['Status ()']>0].index    
@@ -52,6 +52,7 @@ for csv_file in csv_files[1:]:
     df = pd.read_csv(csv_file, index_col = 'Time', 
                      parse_dates = 'Time', date_parser=parser).loc[
                      '2016-03-01 08:00:00':]
+    
     
                     
     #find all the resets that occured
@@ -77,10 +78,11 @@ df_am_all_sensors = df_am_all_sensors.interpolate(method='time')
 df_pm_all_sensors = df_pm_all_sensors.interpolate(method='time')
 
 df_am_all_sensors.plot()
-
-df_pm_all_sensors.plot()
 plt.xlabel('Time')
 plt.ylabel('Raw Solar Radiation (mV)')
+
+df_pm_all_sensors.plot()
+
 
 
 df_am_all_sensors.to_csv('df_am_all_sensors.csv')
